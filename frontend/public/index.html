@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleriya - 익명 사진 공유</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+
+    <header class="main-header">
+        <div class="logo">Galleriya</div>
+        <nav>
+            <ul>
+                <li><a href="index.html" class="active">커뮤니티</a></li>
+                <li><a href="#footer">문의</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero-spacer"></div>
+
+    <main>
+        <section id="gallery-section" class="gallery-section">
+            <h2>커뮤니티</h2>
+            <div class="gallery-grid" id="galleryGrid">
+                <!-- Javascript will populate this -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Lightbox Modal -->
+    <div id="lightbox" class="lightbox" style="display: none;">
+        <span class="close-lightbox">&times;</span>
+        <div class="lightbox-container">
+            <div class="lightbox-image-area">
+                <img class="lightbox-content" id="lightbox-img">
+            </div>
+            <div class="lightbox-comment-area">
+                <div class="lightbox-header">
+                    <h3>댓글</h3>
+                    <div id="caption" class="lightbox-caption"></div>
+                </div>
+                <div id="comments-list" class="comments-list">
+                    <!-- Comments will act here -->
+                </div>
+                <div class="comment-form">
+                    <input type="text" id="comment-input" placeholder="익명으로 댓글 달기..." autocomplete="off">
+                    <button id="send-comment">등록</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer id="footer">
+        <p>문의: contact@galleriya.com</p>
+        <p>&copy; 2024 Galleriya. 익명. 한시적. 아름다움.</p>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+
+</html>

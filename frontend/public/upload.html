@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleriya - 업로드</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+
+    <header class="main-header">
+        <div class="logo">Galleriya</div>
+        <nav>
+            <ul>
+                <li><a href="upload.html" class="active">업로드</a></li>
+                <li><a href="index.html">커뮤니티</a></li>
+                <li><a href="#footer">문의</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero-spacer"></div>
+
+    <main>
+        <section class="upload-section">
+            <div class="glass-card upload-card">
+                <h2>사진 업로드</h2>
+                <p>익명으로 사진을 업로드하세요. 24시간 후 자동으로 사라집니다.</p>
+                <form id="uploadForm">
+                    <div class="preview-container" id="previewContainer">
+                        <div class="placeholder-icon">📷</div>
+                    </div>
+                    <label for="fileInput" class="custom-file-upload">
+                        사진 선택하기
+                    </label>
+                    <input type="file" id="fileInput" accept="image/*" required>
+                    <span id="fileName">선택된 파일 없음</span>
+                    <button type="submit" class="upload-btn">업로드</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <footer id="footer">
+        <p>문의: contact@galleriya.com</p>
+        <p>&copy; 2024 Galleriya. 익명. 한시적. 아름다움.</p>
+    </footer>
+
+    <script src="js/upload.js"></script>
+</body>
+
+</html>
