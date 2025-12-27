@@ -15,6 +15,8 @@ def create_app():
 
     # Register Blueprints
     from app.controllers.photo_controller import photo_bp
+    from app.controllers.contact_controller import contact_bp
     app.register_blueprint(photo_bp, url_prefix='/api')
+    app.register_blueprint(contact_bp, url_prefix='/api')
 
     return app

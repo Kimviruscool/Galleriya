@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galleriya - 문의하기</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="background-animation"></div>
+
+    <header class="main-header">
+        <div class="logo">Galleriya</div>
+        <nav>
+            <ul>
+                <li><a href="upload.html">업로드</a></li>
+                <li><a href="index.html">커뮤니티</a></li>
+                <li><a href="contact.html" class="active">문의</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="hero-spacer"></div>
+
+    <main>
+        <section class="inquiry-board">
+            <!-- Tabs Removed for History-Only View -->
+
+            <div class="board-title-area">
+                <h1>문의 내역</h1>
+                <button id="openModalBtn" class="write-btn">문의하기</button>
+            </div>
+
+            <div class="board-controls">
+                <p>내가 질문한 글에 대한 목록입니다.</p>
+                <div class="search-box">
+                    <select class="search-select">
+                        <option>제목</option>
+                        <option>내용</option>
+                    </select>
+                    <div class="search-input-wrapper">
+                        <input type="text" class="search-input">
+                        <button class="search-icon-btn">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="11" cy="11" r="8"></circle>
+                                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container glass-card">
+                <table class="inquiry-table">
+                    <thead>
+                        <tr>
+                            <!-- No Column Removed -->
+                            <th class="col-title">제목</th>
+                            <th class="col-date">작성일</th>
+                            <th class="col-status">답변 여부</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inquiryTableBody">
+                        <!-- Rows rendered via JS -->
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button class="page-btn disabled">&laquo;</button>
+                <button class="page-btn disabled">&lt;</button>
+                <button class="page-btn active">1</button>
+                <button class="page-btn disabled">&gt;</button>
+                <button class="page-btn disabled">&raquo;</button>
+            </div>
+        </section>
+    </main>
+
+    <!-- FAB Removed -->
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="contact-modal">
+        <div class="contact-modal-content glass-card">
+            <span class="close-contact-modal">&times;</span>
+            <h2>문의하기</h2>
+            <form id="contactForm">
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" required placeholder="제목을 입력하세요">
+                </div>
+                <!-- Author Field Removed -->
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <textarea id="content" rows="5" required placeholder="문의 내용을 입력하세요"></textarea>
+                </div>
+                <button type="submit" class="submit-btn">등록하기</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Detail Modal -->
+    <div id="viewModal" class="contact-modal">
+        <div class="contact-modal-content glass-card">
+            <span class="close-view-modal"
+                style="position: absolute; top: 1rem; right: 1.5rem; color: #aaa; font-size: 1.5rem; cursor: pointer;">&times;</span>
+            <h2 id="viewTitle"
+                style="border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.5rem; margin-bottom: 1rem;">
+            </h2>
+            <div style="margin-bottom: 1rem; color: #ccc; font-size: 0.9rem;">
+                <span id="viewAuthor" style="margin-right: 1.5rem; color: var(--accent-color);"></span>
+                <span id="viewDate"></span>
+            </div>
+            <div id="viewContent"
+                style="min-height: 150px; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; color: #eee; white-space: pre-wrap;">
+            </div>
+            <div id="viewStatus" style="margin-top: 1rem; text-align: right; font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <footer id="footer">
+        <p>문의: contact@galleriya.com</p>
+        <p>&copy; 2024 Galleriya. 익명. 한시적. 아름다움.</p>
+    </footer>
+
+    <script src="js/contact.js"></script>
+</body>
+
+</html>

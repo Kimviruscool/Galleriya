@@ -391,3 +391,302 @@ footer {
     color: #777;
     font-size: 0.9rem;
 }
+
+/* Inquiry Board Styles (Table Layout) */
+.inquiry-board {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 0;
+}
+
+/* Tabs */
+.board-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    border-bottom: 2px solid var(--glass-border);
+}
+
+.tab-btn {
+    text-decoration: none;
+    color: #aaa;
+    font-weight: bold;
+    font-size: 1.1rem;
+    padding: 0.8rem 2rem;
+    border-radius: 12px 12px 0 0;
+    background: transparent;
+    transition: all 0.3s;
+}
+
+.tab-btn.active {
+    color: var(--text-color);
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-bottom: none;
+    box-shadow: 0 -5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Header Area */
+.board-title-area {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 2px solid #fff;
+}
+
+.board-title-area h1 {
+    font-size: 2rem;
+    margin: 0;
+}
+
+.write-btn {
+    background: transparent;
+    border: 1px solid #fff;
+    color: #fff;
+    padding: 8px 30px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+
+.write-btn:hover {
+    background: #fff;
+    color: #000;
+}
+
+/* Controls & Search */
+.board-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.board-controls p {
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.search-box {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    background: var(--glass-bg);
+    padding: 5px 15px;
+    border-radius: 50px;
+    border: 1px solid var(--glass-border);
+}
+
+.search-select {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.search-select option {
+    background: var(--secondary-color);
+    color: #fff;
+}
+
+.search-input-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+.search-input {
+    background: transparent;
+    border: none;
+    color: #fff;
+    width: 200px;
+    padding: 5px;
+}
+
+.search-input:focus {
+    outline: none;
+}
+
+.search-icon-btn {
+    background: transparent;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+}
+
+/* Table */
+.table-container {
+    padding: 0;
+    overflow: hidden;
+}
+
+.inquiry-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.inquiry-table th {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ddd;
+    font-weight: bold;
+    padding: 1rem;
+    font-size: 0.9rem;
+}
+
+.inquiry-table td {
+    padding: 1.2rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    color: #eee;
+    font-size: 0.95rem;
+}
+
+.inquiry-table tr:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* .inquiry-table .col-id Removed */
+
+.inquiry-table .col-title {
+    width: 60%;
+    text-align: left;
+    padding-left: 2rem;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.inquiry-table .col-title:hover {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.inquiry-table .col-date {
+    width: 25%;
+}
+
+.inquiry-table .col-status {
+    width: 15%;
+}
+
+/* Pagination */
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 2rem;
+}
+
+.page-btn {
+    background: transparent;
+    border: none;
+    color: #777;
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.5rem 0.8rem;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.page-btn.active {
+    color: var(--accent-color);
+    font-weight: bold;
+}
+
+.page-btn:hover:not(.disabled) {
+    color: #fff;
+}
+
+.page-btn.disabled {
+    cursor: default;
+    opacity: 0.5;
+}
+
+/* Modal Styles */
+.contact-modal {
+    display: none;
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-modal-content {
+    width: 90%;
+    max-width: 500px;
+    background: var(--secondary-color);
+    position: relative;
+    padding: 2rem;
+    border-radius: 16px;
+    border: 1px solid var(--glass-border);
+}
+
+.close-contact-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    color: #aaa;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.close-contact-modal:hover {
+    color: #fff;
+}
+
+.form-group {
+    margin-bottom: 1.2rem;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid var(--glass-border);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 1rem;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(45deg, #00d2ff, #3a7bd5);
+    color: white;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
+}
