@@ -47,6 +47,7 @@
         const fileNameDisplay = document.getElementById('fileName');
         const previewImg = document.getElementById('preview-img');
         const placeholderIcon = document.querySelector('.placeholder-icon');
+        const previewContainer = document.getElementById('previewContainer');
 
         fileInput.addEventListener('change', function (e) {
             if (this.files && this.files.length > 0) {
@@ -88,6 +89,11 @@
                         // Ensure full image is visible
                         previewImg.style.objectFit = 'contain';
                         placeholderIcon.style.display = 'none';
+
+                        // Auto-adjust container size
+                        previewContainer.style.minHeight = 'auto';
+                        previewContainer.style.height = 'auto';
+                        previewContainer.style.padding = '10px'; // Add slight padding for aesthetics
                     };
                     img.src = event.target.result;
                 };
@@ -96,6 +102,11 @@
                 fileNameDisplay.textContent = '선택된 파일 없음';
                 previewImg.style.display = 'none';
                 placeholderIcon.style.display = 'block';
+
+                // Reset container size
+                previewContainer.style.minHeight = '300px';
+                previewContainer.style.height = '';
+                previewContainer.style.padding = '';
             }
         });
 

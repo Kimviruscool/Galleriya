@@ -5,10 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const galleryGrid = document.getElementById('galleryGrid');
     const lightbox = document.getElementById('lightbox');
     const lightboxImg = document.getElementById('lightbox-img');
-    const captionText = document.getElementById('caption');
+    const captionText = document.getElementById('lightbox-caption');
     const commentsList = document.getElementById('comments-list');
-    const commentInput = document.getElementById('comment-input');
-    const sendCommentBtn = document.getElementById('send-comment');
     const closeBtn = document.querySelector('.close-lightbox');
 
     let currentPhotoId = null;
@@ -87,21 +85,18 @@ document.addEventListener('DOMContentLoaded', () => {
         captionText.innerHTML = caption;
         currentPhotoId = photoData.id;
 
-        // Update comments
+        // Render comments
         renderComments(photoData.comments || []);
 
-        // Add Like Button to Lightbox
+        // Add Like Button if missing
         let likeBtn = document.getElementById('lightbox-like-btn');
         if (!likeBtn) {
-            // Create like button if it doesn't exist
             const headerArea = document.querySelector('.lightbox-header');
             likeBtn = document.createElement('button');
             likeBtn.id = 'lightbox-like-btn';
             likeBtn.style.cssText = "background:transparent; border:1px solid var(--accent-color); color:var(--accent-color); padding:5px 10px; border-radius:15px; cursor:pointer; margin-top:10px;";
             headerArea.appendChild(likeBtn);
         }
-
-        // Update like text and event
         updateLikeButton(likeBtn, photoData.likes || 0);
 
         likeBtn.onclick = async (e) => {
@@ -111,13 +106,31 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     const data = await response.json();
                     updateLikeButton(likeBtn, data.likes);
-                    // Refresh grid to update counts there too (optional but good for consistency)
-                    loadPhotos();
+                    loadPhotos(); // Refresh grid
                 }
             } catch (e) {
                 console.error(e);
             }
         };
+
+        // Ensure Comment Input Exists
+        let commentInputArea = document.getElementById('comment-input-area');
+        if (!commentInputArea) {
+            const commentSection = document.querySelector('.lightbox-comment-area');
+            commentInputArea = document.createElement('div');
+            commentInputArea.id = 'comment-input-area';
+            commentInputArea.style.cssText = "padding: 1rem; border-top: 1px solid var(--glass-border); display:flex; gap:5px;";
+            commentInputArea.innerHTML = `
+                <input type="text" id="new-comment-text" placeholder="댓글 달기..." style="flex:1; padding:8px; border-radius:5px; border:none;">
+                <button id="submit-comment-btn" style="background:var(--accent-color); border:none; color:white; padding:5px 15px; border-radius:5px; cursor:pointer;">게시</button>
+            `;
+            commentSection.appendChild(commentInputArea);
+
+            document.getElementById('submit-comment-btn').onclick = submitComment;
+            document.getElementById('new-comment-text').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') submitComment();
+            });
+        }
     }
 
     function updateLikeButton(btn, count) {
@@ -126,43 +139,52 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderComments(comments) {
         commentsList.innerHTML = '';
-        if (!comments || comments.length === 0) {
-            commentsList.innerHTML = '<p style="color:#777; font-size: 0.9rem; text-align:center; padding-top: 2rem;">첫 번째 댓글을 남겨보세요.</p>';
+        if (comments.length === 0) {
+            commentsList.innerHTML = '<p style="color:#aaa; text-align:center; margin-top:20px;">첫 댓글을 남겨보세요!</p>';
             return;
         }
-
         comments.forEach(comment => {
-            const div = document.createElement('div');
-            div.className = 'comment-item';
-            div.innerHTML = `
-                <div>
-                    <span class="comment-author">${comment.alias}</span>
-                    <span class="comment-text">${comment.content}</span>
-                </div>
-                <span class="comment-time">${new Date(comment.timestamp).toLocaleString('ko-KR')}</span>
+            const item = document.createElement('div');
+            item.className = 'comment-item';
+            item.innerHTML = `
+                <span class="comment-author">${comment.alias}</span>
+                <span class="comment-text">${comment.content}</span>
+                <span class="comment-time">${new Date(comment.timestamp).toLocaleTimeString()}</span>
             `;
-            commentsList.appendChild(div);
+            commentsList.appendChild(item);
         });
-        commentsList.scrollTop = commentsList.scrollHeight;
+        commentsList.scrollTop = commentsList.scrollHeight; // Ensure scroll to bottom
     }
 
     async function submitComment() {
-        const text = commentInput.value.trim();
-        if (!text || !currentPhotoId) return;
+        const input = document.getElementById('new-comment-text');
+        const content = input.value.trim();
+        if (!content || !currentPhotoId) return;
+
+        // Get or create a persistent user ID for this browser
+        let userId = localStorage.getItem('galleriya_user_id');
+        if (!userId) {
+            userId = 'user_' + Math.random().toString(36).substr(2, 9);
+            localStorage.setItem('galleriya_user_id', userId);
+        }
+
+        const submitBtn = document.getElementById('submit-comment-btn');
+        const originalBtnText = submitBtn.textContent;
+        submitBtn.textContent = '...';
+        submitBtn.disabled = true;
 
         try {
-            sendCommentBtn.textContent = '...';
-            sendCommentBtn.disabled = true;
-
             const response = await fetch(`${API_URL}/photos/${currentPhotoId}/comments`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ user_id: userId, content: text })
+                body: JSON.stringify({
+                    user_id: userId,
+                    content: content
+                })
             });
 
             if (response.ok) {
                 const newComment = await response.json();
-
                 // Clear empty message if exists
                 if (commentsList.querySelector('p')) commentsList.innerHTML = '';
 
@@ -194,10 +216,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Event Listeners
-    sendCommentBtn.onclick = submitComment;
-    commentInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') submitComment();
-    });
+    // Event Listeners
 
     closeBtn.onclick = () => {
         lightbox.style.display = "none";

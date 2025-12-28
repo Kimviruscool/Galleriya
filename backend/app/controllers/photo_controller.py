@@ -64,14 +64,32 @@ def get_photos():
     
     global photos
     
-    # Identify expired photos
-    expired_photos = [p for p in photos if current_time - p.timestamp >= timedelta(hours=24)]
+    # Identifiy expired or missing photos
+    expired_or_missing = []
+    active_photos = []
     
-    # Keep only valid photos in memory
-    photos = [p for p in photos if current_time - p.timestamp < timedelta(hours=24)]
+    for p in photos:
+        file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], p.filename)
+        
+        # Check expiration
+        is_expired = current_time - p.timestamp >= timedelta(hours=24)
+        
+        # Check physical existence
+        is_missing = not os.path.exists(file_path)
+        
+        if is_expired or is_missing:
+            expired_or_missing.append(p)
+        else:
+            active_photos.append(p)
+            
+    # Update global list
+    photos = active_photos
     
-    # Physical deletion of expired files
-    for photo in expired_photos:
+    # Physical deletion of expired files (if they exist)
+    for photo in expired_or_missing:
+        # Only try to delete if it's expired (and presumably exists, or we double check)
+        # If it was missing, we just dropped it from memory, no need to delete.
+        # But if it was expired, we should try to delete.
         try:
             file_path = os.path.join(current_app.config['UPLOAD_FOLDER'], photo.filename)
             if os.path.exists(file_path):
