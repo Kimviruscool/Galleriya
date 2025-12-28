@@ -8,6 +8,11 @@ class Photo:
         self.timestamp = datetime.now()
         self.comments = [] # List of {user_hash, content, date, alias_index}
         self.comment_user_map = {} # Map unique_user_id -> alias_index (1, 2, 3...)
+        self.likes = 0
+
+    def add_like(self):
+        self.likes += 1
+        return self.likes
 
     def add_comment(self, user_id, content):
         if user_id not in self.comment_user_map:
@@ -29,5 +34,6 @@ class Photo:
             'id': self.id,
             'filename': self.filename,
             'timestamp': self.timestamp.isoformat(),
-            'comments': self.comments
+            'comments': self.comments,
+            'likes': self.likes
         }

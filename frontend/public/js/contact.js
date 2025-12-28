@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         const title = document.getElementById('title').value;
+        const email = document.getElementById('email').value;
         const content = document.getElementById('content').value;
 
         try {
@@ -43,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ title, content })
+                body: JSON.stringify({ title, email, content })
             });
 
             if (response.ok) {
@@ -104,7 +105,7 @@ window.openViewModal = function (contact) {
     if (!viewModal) return;
 
     document.getElementById('viewTitle').textContent = contact.title;
-    document.getElementById('viewAuthor').textContent = `작성자: ${contact.author || '익명'}`;
+    document.getElementById('viewAuthor').textContent = `작성자: ${contact.email || '익명'}`;
     document.getElementById('viewDate').textContent = contact.timestamp;
     document.getElementById('viewContent').textContent = contact.content;
 

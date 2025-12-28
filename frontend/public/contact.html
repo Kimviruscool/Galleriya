@@ -11,18 +11,6 @@
 
 <body>
     <div class="background-animation"></div>
-
-    <header class="main-header">
-        <div class="logo">Galleriya</div>
-        <nav>
-            <ul>
-                <li><a href="upload.html">업로드</a></li>
-                <li><a href="index.html">커뮤니티</a></li>
-                <li><a href="contact.html" class="active">문의</a></li>
-            </ul>
-        </nav>
-    </header>
-
     <div class="hero-spacer"></div>
 
     <main>
@@ -82,6 +70,19 @@
 
     <!-- FAB Removed -->
 
+    <!-- Detail Modal -->
+    <div id="detailModal" class="contact-modal">
+        <div class="contact-modal-content">
+            <span class="close-contact-modal" id="closeDetailModal">&times;</span>
+            <h2 id="detailTitle" style="margin-bottom:1rem;">Inquiry Title</h2>
+            <p id="detailMeta" style="color:#aaa; font-size:0.9rem; margin-bottom:1rem;">Author | Date | Status</p>
+            <div id="detailContent"
+                style="background:rgba(0,0,0,0.3); padding:1rem; border-radius:8px; min-height:150px; white-space: pre-wrap;">
+                Content goes here...
+            </div>
+        </div>
+    </div>
+
     <!-- Contact Modal -->
     <div id="contactModal" class="contact-modal">
         <div class="contact-modal-content glass-card">
@@ -92,7 +93,10 @@
                     <label for="title">제목</label>
                     <input type="text" id="title" required placeholder="제목을 입력하세요">
                 </div>
-                <!-- Author Field Removed -->
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="email" id="email" required placeholder="이메일을 입력하세요">
+                </div>
                 <div class="form-group">
                     <label for="content">내용</label>
                     <textarea id="content" rows="5" required placeholder="문의 내용을 입력하세요"></textarea>
@@ -102,23 +106,8 @@
         </div>
     </div>
 
-    <!-- View Detail Modal -->
-    <div id="viewModal" class="contact-modal">
-        <div class="contact-modal-content glass-card">
-            <span class="close-view-modal"
-                style="position: absolute; top: 1rem; right: 1.5rem; color: #aaa; font-size: 1.5rem; cursor: pointer;">&times;</span>
-            <h2 id="viewTitle"
-                style="border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 0.5rem; margin-bottom: 1rem;">
-            </h2>
-            <div style="margin-bottom: 1rem; color: #ccc; font-size: 0.9rem;">
-                <span id="viewAuthor" style="margin-right: 1.5rem; color: var(--accent-color);"></span>
-                <span id="viewDate"></span>
-            </div>
-            <div id="viewContent"
-                style="min-height: 150px; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px; color: #eee; white-space: pre-wrap;">
-            </div>
-            <div id="viewStatus" style="margin-top: 1rem; text-align: right; font-weight: bold;"></div>
-        </div>
+    <div id="viewStatus" style="margin-top: 1rem; text-align: right; font-weight: bold;"></div>
+    </div>
     </div>
 
     <footer id="footer">
@@ -126,6 +115,7 @@
         <p>&copy; 2024 Galleriya. 익명. 한시적. 아름다움.</p>
     </footer>
 
+    <script src="js/header.js"></script>
     <script src="js/contact.js"></script>
 </body>
 

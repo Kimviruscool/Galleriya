@@ -59,18 +59,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 const timeString = uploadDate.toLocaleString('ko-KR');
                 const imgUrl = `${API_URL}/uploads/${photo.filename}`;
                 const commentCount = photo.comments ? photo.comments.length : 0;
+                const likeCount = photo.likes || 0;
 
                 card.innerHTML = `
                     <div class="photo-overlay"></div>
                     <img src="${imgUrl}" alt="Anonymous Photo" loading="lazy">
                     <div class="timestamp">${timeString}</div>
-                    <div class="comment-count">💬 ${commentCount}</div>
+                    <div class="stats-area" style="position:absolute; bottom:10px; left:15px; z-index:2; display:flex; gap:10px; color:white; font-size:0.9rem;">
+                        <span>💬 ${commentCount}</span>
+                        <span>❤️ ${likeCount}</span>
+                    </div>
                 `;
 
-                card.onclick = () => openLightbox(imgUrl, timeString, photo.id, photo.comments || []);
+                card.onclick = () => openLightbox(imgUrl, timeString, photo);
                 galleryGrid.appendChild(card);
             });
-
         } catch (error) {
             console.error('Error loading photos:', error);
             galleryGrid.innerHTML = '<p style="text-align:center; width:100%; color:red;">사진을 불러오는데 실패했습니다.</p>';
@@ -78,12 +81,47 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Lightbox Functions
-    function openLightbox(src, caption, photoId, initialComments) {
+    function openLightbox(src, caption, photoData) {
         lightbox.style.display = "flex";
         lightboxImg.src = src;
-        captionText.innerHTML = caption; // using timestamp as caption
-        currentPhotoId = photoId;
-        renderComments(initialComments);
+        captionText.innerHTML = caption;
+        currentPhotoId = photoData.id;
+
+        // Update comments
+        renderComments(photoData.comments || []);
+
+        // Add Like Button to Lightbox
+        let likeBtn = document.getElementById('lightbox-like-btn');
+        if (!likeBtn) {
+            // Create like button if it doesn't exist
+            const headerArea = document.querySelector('.lightbox-header');
+            likeBtn = document.createElement('button');
+            likeBtn.id = 'lightbox-like-btn';
+            likeBtn.style.cssText = "background:transparent; border:1px solid var(--accent-color); color:var(--accent-color); padding:5px 10px; border-radius:15px; cursor:pointer; margin-top:10px;";
+            headerArea.appendChild(likeBtn);
+        }
+
+        // Update like text and event
+        updateLikeButton(likeBtn, photoData.likes || 0);
+
+        likeBtn.onclick = async (e) => {
+            e.stopPropagation();
+            try {
+                const response = await fetch(`${API_URL}/photos/${currentPhotoId}/like`, { method: 'POST' });
+                if (response.ok) {
+                    const data = await response.json();
+                    updateLikeButton(likeBtn, data.likes);
+                    // Refresh grid to update counts there too (optional but good for consistency)
+                    loadPhotos();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        };
+    }
+
+    function updateLikeButton(btn, count) {
+        btn.innerHTML = `❤️ 좋아요 (${count})`;
     }
 
     function renderComments(comments) {

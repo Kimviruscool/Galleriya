@@ -17,12 +17,12 @@ def create_contact():
     data = request.json
     title = data.get('title')
     content = data.get('content')
-    author = data.get('author', '익명')
+    email = data.get('email', '익명')
     
     if not title or not content:
         return jsonify({'error': '제목과 내용을 입력해주세요.'}), 400
         
-    new_contact = Contact(title, content, author)
+    new_contact = Contact(title, content, email)
     contacts.append(new_contact)
     
     return jsonify(new_contact.to_dict()), 201

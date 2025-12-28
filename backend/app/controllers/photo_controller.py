@@ -98,6 +98,16 @@ def add_comment(photo_id):
             
     return jsonify({'error': '사진을 찾을 수 없습니다.'}), 404
 
+@photo_bp.route('/photos/<photo_id>/like', methods=['POST'])
+def like_photo(photo_id):
+    global photos
+    for photo in photos:
+        if photo.id == photo_id:
+            new_count = photo.add_like()
+            return jsonify({'likes': new_count}), 200
+            
+    return jsonify({'error': '사진을 찾을 수 없습니다.'}), 404
+
 @photo_bp.route('/uploads/<filename>')
 def uploaded_file(filename):
     return send_from_directory(current_app.config['UPLOAD_FOLDER'], filename)
