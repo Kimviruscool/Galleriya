@@ -1,4 +1,4 @@
-const API_URL = 'http://127.0.0.1:5000/api';
+const API_URL = 'https://galleriya-backend-143.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
     console.log('Main.js loaded');
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Load Photos
     async function loadPhotos() {
         try {
-            const response = await fetch(`${API_URL}/photos`);
+            const response = await fetch(`${API_URL}/api/photos`);
             if (!response.ok) throw new Error('Failed to fetch photos');
             const photos = await response.json();
 
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const uploadDate = new Date(photo.timestamp);
                 const timeString = uploadDate.toLocaleString('ko-KR');
-                const imgUrl = `${API_URL}/uploads/${photo.filename}`;
+                const imgUrl = `${API_URL}/api/uploads/${photo.filename}`;
                 const commentCount = photo.comments ? photo.comments.length : 0;
                 const likeCount = photo.likes || 0;
 
@@ -102,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
         likeBtn.onclick = async (e) => {
             e.stopPropagation();
             try {
-                const response = await fetch(`${API_URL}/photos/${currentPhotoId}/like`, { method: 'POST' });
+                const response = await fetch(`${API_URL}/api/photos/${currentPhotoId}/like`, { method: 'POST' });
                 if (response.ok) {
                     const data = await response.json();
                     updateLikeButton(likeBtn, data.likes);
@@ -157,24 +157,28 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     async function submitComment() {
+        // 1. 여기서 이름을 'input' 이라고 지었습니다.
         const input = document.getElementById('new-comment-text');
         const content = input.value.trim();
         if (!content || !currentPhotoId) return;
 
-        // Get or create a persistent user ID for this browser
         let userId = localStorage.getItem('galleriya_user_id');
         if (!userId) {
             userId = 'user_' + Math.random().toString(36).substr(2, 9);
             localStorage.setItem('galleriya_user_id', userId);
         }
 
+        // 2. 여기서 이름을 'submitBtn' 이라고 지었습니다.
         const submitBtn = document.getElementById('submit-comment-btn');
         const originalBtnText = submitBtn.textContent;
+
+        // 버튼 비활성화 (중복 클릭 방지)
         submitBtn.textContent = '...';
         submitBtn.disabled = true;
 
         try {
-            const response = await fetch(`${API_URL}/photos/${currentPhotoId}/comments`, {
+            // ★ 중요: 여기에 /api 주소가 잘 들어가 있어야 합니다.
+            const response = await fetch(`${API_URL}/api/photos/${currentPhotoId}/comments`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -185,9 +189,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (response.ok) {
                 const newComment = await response.json();
-                // Clear empty message if exists
+
+                // 댓글 목록에 비어있음 메시지가 있다면 제거
                 if (commentsList.querySelector('p')) commentsList.innerHTML = '';
 
+                // 새 댓글 화면에 추가
                 const div = document.createElement('div');
                 div.className = 'comment-item';
                 div.innerHTML = `
@@ -199,10 +205,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 `;
                 commentsList.appendChild(div);
                 commentsList.scrollTop = commentsList.scrollHeight;
-                commentInput.value = '';
 
-                // Reload photos to update comment count on the card
-                loadPhotos();
+                // ★ 수정 완료 1: 아까 에러나던 'commentInput'을 'input'으로 고쳤습니다.
+                input.value = '';
+
+                loadPhotos(); // 카드형 목록의 댓글 숫자 업데이트
             } else {
                 alert('댓글 작성 실패');
             }
@@ -210,8 +217,11 @@ document.addEventListener('DOMContentLoaded', () => {
             console.error(e);
             alert('오류 발생');
         } finally {
-            sendCommentBtn.textContent = '등록';
-            sendCommentBtn.disabled = false;
+            // ★ 수정 완료 2: 아까 에러나던 'sendCommentBtn'을 'submitBtn'으로 고쳤습니다.
+            if(submitBtn) {
+                submitBtn.textContent = originalBtnText; // 버튼 글씨 복구
+                submitBtn.disabled = false; // 버튼 다시 활성화
+            }
         }
     }
 

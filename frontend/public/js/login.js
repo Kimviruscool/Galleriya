@@ -1,3 +1,6 @@
+const API_URL = 'https://galleriya-backend-143.onrender.com';
+
+
 document.addEventListener('DOMContentLoaded', () => {
     const loginForm = document.getElementById('loginForm');
 

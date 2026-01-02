@@ -1,4 +1,4 @@
-const API_URL = 'http://127.0.0.1:5000/api';
+const API_URL = 'https://galleriya-backend-143.onrender.com';
 
 document.addEventListener('DOMContentLoaded', () => {
     const uploadForm = document.getElementById('uploadForm');
@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             submitBtn.textContent = '업로드 중...';
             submitBtn.disabled = true;
 
-            const response = await fetch(`${API_URL}/upload`, {
+            const response = await fetch(`${API_URL}/api/upload`, {
                 method: 'POST',
                 body: formData
             });
