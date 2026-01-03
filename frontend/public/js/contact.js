@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const content = document.getElementById('content').value;
 
         try {
-            const response = await fetch(`${API_URL}/contacts`, {
+            const response = await fetch(`${API_URL}/api/contacts`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 async function fetchContacts() {
     try {
-        const response = await fetch(`${API_URL}/contacts`);
+        const response = await fetch(`${API_URL}/api/contacts`);
         const contacts = await response.json();
 
         const tableBody = document.getElementById('inquiryTableBody');
